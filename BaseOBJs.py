@@ -26,3 +26,9 @@ class Melee_Enemy(Enemy):
     def __init__(self, name):
         hp = 20
         super().__init__(name, hp)
+
+
+class Ranged_Enemy(Enemy):
+    def __init__(self, name):
+        hp = 10
+        super().__init__(name, hp)
