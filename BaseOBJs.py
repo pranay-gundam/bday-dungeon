@@ -16,30 +16,33 @@ class Character:
         self.hitbox = hitbox
 
         # Any equipable that a character can use
-        self.items = {"head":, "chest":, "l_arm":, "r_arm":, "pants":, "boots":, "inventory":[]}
+        self.items = {"head":[], "chest":[], "l_arm":[], "r_arm":[], "pants":[], "boots":[], "inventory":[]}
 
         # The number of slots that a character is able to hold
         self.inven_space = inven_space
 
-    def inventory_check(self):
-        return len(self.items["inventory"]) <= self.inven_space
-
-    def add_item(self, item, slot):
+    def item_check(self, slot):
         match slot:
             case "head":
-                pass
+                return len(self.items["head"]) == 0
             case "chest":
-                pass
+                return len(self.items["chest"]) == 0
             case "l_arm":
-                pass
+                return len(self.items["l_arm"]) == 0
             case "r_arm":
-                pass
+                return len(self.items["r_arm"]) == 0
             case "pants":
-                pass
+                return len(self.items["pants"]) == 0
             case "boots":
-                pass
+                return len(self.items["boots"]) == 0
             case "inventory":
-                pass
+                return len(self.items["inventory"]) <= self.inven_space
+
+    def add_item(self, item, slot):
+        if self.item_check(slot):
+            self.item_check[slot].append(item)
+        else:
+            print(f"{slot} slot is full")
 
 
 
@@ -59,19 +62,19 @@ class Enemy(NPC):
 class Boss_Enemy(Enemy):
     def __init__(self, name):
         hp = 100
-        hitbox = {l:50, w:50}
+        hitbox = {"l":50,"w": 50}
         super().__init__(name, hp, hitbox)
 
 
 class Melee_Enemy(Enemy):
     def __init__(self, name):
         hp = 20
-        hitbox = {l: 20, 10}
+        hitbox = {"l": 20,"w": 10}
         super().__init__(name, hp)
 
 
 class Ranged_Enemy(Enemy):
     def __init__(self, name):
         hp = 10
-        hitbox = {l: 20, 10}
+        hitbox = {"l": 20,"w": 10}
         super().__init__(name, hp)
