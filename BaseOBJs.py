@@ -1,8 +1,68 @@
-#
+class Item:
+    def __init__(self, name, slot, hp, ap, weapon_type = None, ispace = None):
+        self.name = name
+        self.slot = slot
+
+        # Hit Points
+        self.hp = hp
+
+
+        # Attack Power
+        self.ap = ap
+
+        # For weapons there are both ranged and melee types
+        self.weapon_type = weapon_type
+
+        # How much space this item takes up in an inventory pack
+        self.ispace = ispace
+
+
+    def slot_check(self, slot):
+        return slot == self.slot
+
+    def check_hp(self):
+        return self.hp
+
 
 class Room:
     def __init__(self, name):
         self.name = name
+
+class Inventory:
+    def __init__(self, inven_space):
+        self.head = None
+        self.chest = None
+        self.left_arm = None
+        self.right_arm = None
+        self.pants = None
+        self.boots = None
+        self.pack = []
+
+        # The number of slots that a character is able to hold
+        self.inven_space = inven_space
+
+    def inven_check(self, slot):
+        match slot:
+            case "head":
+                return self.head == None
+            case "chest":
+                return self.chest == None
+            case "l_arm":
+                return self.left_arm == None
+            case "r_arm":
+                return self.right_arm == None
+            case "pants":
+                return self.pants == None
+            case "boots":
+                return self.boots == None
+            case "pack":
+                return len(self.pack) <= self.inven_space
+
+    def add_item(self, item , slot):
+        if self.inven_check(slot) and item.slot_check(slot):
+            pass
+        else:
+            print(f"either {slot} slot is full or this is not the right slot for this item")
 
 
 class Character:
@@ -16,33 +76,14 @@ class Character:
         self.hitbox = hitbox
 
         # Any equipable that a character can use
-        self.items = {"head":[], "chest":[], "l_arm":[], "r_arm":[], "pants":[], "boots":[], "inventory":[]}
+        self.inventory = Inventory(inven_space)
 
-        # The number of slots that a character is able to hold
-        self.inven_space = inven_space
-
-    def item_check(self, slot):
-        match slot:
-            case "head":
-                return len(self.items["head"]) == 0
-            case "chest":
-                return len(self.items["chest"]) == 0
-            case "l_arm":
-                return len(self.items["l_arm"]) == 0
-            case "r_arm":
-                return len(self.items["r_arm"]) == 0
-            case "pants":
-                return len(self.items["pants"]) == 0
-            case "boots":
-                return len(self.items["boots"]) == 0
-            case "inventory":
-                return len(self.items["inventory"]) <= self.inven_space
 
     def add_item(self, item, slot):
-        if self.item_check(slot):
-            self.item_check[slot].append(item)
+        if self.inven_check(slot) and item.slot_check(slot):
+            self.inven_check[slot].append(item)
         else:
-            print(f"{slot} slot is full")
+            print(f"either {slot} slot is full or this is not the right slot for this item")
 
 
 
