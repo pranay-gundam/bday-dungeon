@@ -60,7 +60,21 @@ class Inventory:
 
     def add_item(self, item , slot):
         if self.inven_check(slot) and item.slot_check(slot):
-            pass
+            match slot:
+            case "head":
+                self.head = item
+            case "chest":
+                self.chest = item
+            case "l_arm":
+                self.left_arm = item
+            case "r_arm":
+                self.right_arm = item
+            case "pants":
+                self.pants = item
+            case "boots":
+                self.boots = item
+            case "pack":
+                self.pack.append(item)
         else:
             print(f"either {slot} slot is full or this is not the right slot for this item")
 
