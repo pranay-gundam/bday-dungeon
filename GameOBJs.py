@@ -1,3 +1,6 @@
+import pygame as pyg
+import numpy as np
+
 class Item:
     def __init__(self, name, slot, hp, ap, weapon_type = None, ispace = None):
         self.name = name
@@ -5,7 +8,6 @@ class Item:
 
         # Hit Points
         self.hp = hp
-
 
         # Attack Power
         self.ap = ap
@@ -42,56 +44,60 @@ class Inventory:
         self.inven_space = inven_space
 
     def inven_check(self, slot):
-        match slot:
-            case "head":
+        if slot == "head":
                 return self.head == None
-            case "chest":
+        elif slot == "chest":
                 return self.chest == None
-            case "l_arm":
+        elif slot == "l_arm":
                 return self.left_arm == None
-            case "r_arm":
+        elif slot == "r_arm":
                 return self.right_arm == None
-            case "pants":
+        elif slot == "pants":
                 return self.pants == None
-            case "boots":
+        elif slot == "boots":
                 return self.boots == None
-            case "pack":
+        elif slot == "pack":
                 return len(self.pack) <= self.inven_space
 
     def add_item(self, item , slot):
         if self.inven_check(slot) and item.slot_check(slot):
-            match slot:
-            case "head":
+            if slot == "head":
                 self.head = item
-            case "chest":
+            elif slot == "chest":
                 self.chest = item
-            case "l_arm":
+            elif slot == "l_arm":
                 self.left_arm = item
-            case "r_arm":
+            elif slot == "r_arm":
                 self.right_arm = item
-            case "pants":
+            elif slot == "pants":
                 self.pants = item
-            case "boots":
+            elif slot == "boots":
                 self.boots = item
-            case "pack":
+            elif slot == "pack":
                 self.pack.append(item)
         else:
             print(f"either {slot} slot is full or this is not the right slot for this item")
 
 
 class Character:
-    def __init__(self, name, hitbox, hp, inven_space):
+    def __init__(self, name, hitbox, hp, inven_space, x, width, y, height, deltax=0, deltay=0):
         self.name = name
 
         # hit points
         self.hp = hp
 
-        # dictionary of the length and width of the rectangular hitbox
+        # pygame rect object to track the hitbox
         self.hitbox = hitbox
 
         # Any equipable that a character can use
         self.inventory = Inventory(inven_space)
 
+        # Keeping track of interaction of character with front end
+        self.pos = np.array([x,y])
+        self.size = np.array([width,height])
+
+        # Helps with controlling movement of the character
+        self.velocity = np.array([deltax, deltay])
 
     def add_item(self, item, slot):
         if self.inven_check(slot) and item.slot_check(slot):
@@ -100,10 +106,16 @@ class Character:
             print(f"either {slot} slot is full or this is not the right slot for this item")
 
 
+    def updatePos(self):
+        self.pos += self.velocity
 
-class Player:
+    def draw(self):
+        pass
+
+
+class Player(Character):
     def __init__(self, name):
-        self.name = name
+        super().__init__(name)
 
 
 class NPC(Character):
