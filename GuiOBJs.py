@@ -19,11 +19,15 @@ class Screen:
         # ARRAY CONTAINING ALL THE ELEMENTS ON THE SCREEN
         self.elements = []
  
+    def getHeight(self):
+        return self.height
+    
+    def getWidth(self):
+        return self.width
+
     def addElement(self, elem):
         self.elements.append(elem)
 
-    # DISPLAY THE CURRENT SCREEN OF
-    # A WINDOW AT THE CURRENT STATE
     def makeCurrentScreen(self):
         # SET THE TITLE FOR THE CURRENT STATE OF A SCREEN
         pyg.display.set_caption(self.title)
@@ -35,13 +39,18 @@ class Screen:
         self.screen.fill(self.screenColor)
 
         for elem in self.elements:
-            elem.draw()
+            elem.draw(self.screen)
  
-    # THIS WILL SET THE STATE OF A CURRENT STATE TO OFF
+    def update(self):
+        for elem in self.elements:
+            elem.update()
+            elem.draw(self.screen)
+
+        
+
     def endCurrentScreen(self):
         self.CurrentState = False
  
-    # RETURNS THE TITLE OF THE SCREEN
     def returnTitle(self):
         return self.title
 

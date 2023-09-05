@@ -80,7 +80,7 @@ class Inventory:
 
 
 class Character:
-    def __init__(self, name, hitbox, hp, inven_space, x, width, y, height, deltax=0, deltay=0):
+    def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, deltax=0, deltay=0):
         self.name = name
 
         # hit points
@@ -106,16 +106,27 @@ class Character:
             print(f"either {slot} slot is full or this is not the right slot for this item")
 
 
-    def updatePos(self):
+    def update(self):
         self.pos += self.velocity
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        pyg.draw.circle(surface=screen, 
+                        color="black", 
+                        center=self.pos, 
+                        radius=self.size[0])
 
 
 class Player(Character):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, deltax=10, deltay=10):
+        super().__init__(name, hitbox, hp, inven_space, x, y, width, height, deltax, deltay)
+
+    def update(self):
+        super().update()
+
+    def draw(self, screen):
+        super().draw(screen)
+
+    
 
 
 class NPC(Character):
