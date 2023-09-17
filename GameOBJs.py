@@ -117,7 +117,7 @@ class Character:
 
 
 class Player(Character):
-    def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, deltax=10, deltay=10):
+    def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, deltax=0, deltay=0):
         super().__init__(name, hitbox, hp, inven_space, x, y, width, height, deltax, deltay)
 
     def update(self):

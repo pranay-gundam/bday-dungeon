@@ -9,9 +9,6 @@ running = True
 HomeScreen = gui.Screen(title="Home Screen")
 
 
-KEYDICT = {1073741906: "up", 1073741905: "down",
-           1073741904: "left", 1073741903: "right"}
-
 Hall1 = gui.Screen(title="Hall1")
 P1 = go.Player(name="Pranay", 
                hitbox=pyg.Rect(Hall1.getWidth()/2-5,
@@ -32,17 +29,22 @@ Boss1 = gui.Screen(title="Boss One")
 Boss2 = gui.Screen(title="Boss Two")
 FinalBoss = gui.Screen(title="Final Boss")
 
-screens = [HomeScreen, Hall1, Hall2, 
-           CheckPoint, Boss1, Boss2,
-           FinalBoss]
+screens = {"Home": HomeScreen, 
+           "Hall1": Hall1, 
+           "Hall2": Hall2,
+           "Checkpoint": CheckPoint, 
+           "Boss1": Boss1, 
+           "Boss2": Boss2,
+           "FinalBoss": FinalBoss}
+
+wrapper = gui.ScreenWrapper(screens)
 
 while running:
 
     for e in pyg.event.get():
         if e.type == pyg.QUIT:
             running = False
-        if e.type == pyg.KEYDOWN:
-            if KEYDICT[e.key] == "up":
+        wrapper.act(e)
                 
 
 

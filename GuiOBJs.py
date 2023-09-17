@@ -1,7 +1,36 @@
 import GameOBJs as go
 import pygame as pyg
 
+KEYDICT = {1073741906: "up", 1073741905: "down",
+           1073741904: "left", 1073741903: "right"}
 
+class ScreenWrapper:
+    def __init__(self, screens = {}):
+        self.screens = screens
+    
+    def add_screen(self, screen, screen_name):
+        if not screen_name in self.screens.keys:
+            self.screens[screen_name] = screen
+
+    def act(self, e):
+        if e.type == pyg.KEYDOWN:
+            if KEYDICT[e.key] == "up":
+                pass
+            if KEYDICT[e.key] == "down":
+                pass
+            if KEYDICT[e.key] == "left":
+                pass
+            if KEYDICT[e.key] == "right":
+                pass
+        if e.type == pyg.KEYUP:
+            if KEYDICT[e.key] == "up":
+                pass
+            if KEYDICT[e.key] == "down":
+                pass
+            if KEYDICT[e.key] == "left":
+                pass
+            if KEYDICT[e.key] == "right":
+                pass
 
 class Screen:
     def __init__(self, title, width=1250, height=625,
@@ -42,6 +71,7 @@ class Screen:
             elem.draw(self.screen)
  
     def update(self):
+        self.screen.fill(self.screenColor)
         for elem in self.elements:
             elem.update()
             elem.draw(self.screen)
