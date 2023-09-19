@@ -108,6 +108,7 @@ class Character:
 
     def update(self):
         self.pos += self.velocity
+        
 
     def draw(self, screen):
         pyg.draw.circle(surface=screen, 
@@ -115,7 +116,26 @@ class Character:
                         center=self.pos, 
                         radius=self.size[0])
 
-
+    def act(self, e):
+        if e.type == pyg.KEYDOWN:
+            if e.key == pyg.K_UP:
+                self.velocity += np.array([0, -0.1])
+            if e.key == pyg.K_DOWN:
+                self.velocity += np.array([0, 0.1])
+            if e.key == pyg.K_LEFT:
+                self.velocity += np.array([-0.1, 0])
+            if e.key == pyg.K_RIGHT:
+                self.velocity += np.array([0.1, 0])
+        if e.type == pyg.KEYUP:
+            if e.key == pyg.K_UP:
+                self.velocity[1] = 0.0
+            if e.key == pyg.K_DOWN:
+                self.velocity[1] = 0.0
+            if e.key == pyg.K_LEFT:
+                self.velocity[0] = 0.0
+            if e.key == pyg.K_RIGHT:
+                self.velocity[0] = 0.0
+        
 class Player(Character):
     def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, deltax=0, deltay=0):
         super().__init__(name, hitbox, hp, inven_space, x, y, width, height, deltax, deltay)

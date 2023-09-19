@@ -1,39 +1,39 @@
 import GameOBJs as go
 import pygame as pyg
 
-KEYDICT = {1073741906: "up", 1073741905: "down",
-           1073741904: "left", 1073741903: "right"}
 
 class ScreenWrapper:
     def __init__(self, screens = {}):
         self.screens = screens
+        self.cur_screen = None
     
-    def add_screen(self, screen, screen_name):
-        if not screen_name in self.screens.keys:
-            self.screens[screen_name] = screen
+    def change_cur_screen(self, new_screen):
+        if self.cur_screen != None:
+            self.cur_screen.endCurrentScreen()
+            self.screens[self.cur_screen.getTitle()] = self.cur_screen
+            self.cur_screen = new_screen
+            self.cur_screen.makeCurrentScreen()
+        else:
+            self.cur_screen = new_screen
+            self.cur_screen.makeCurrentScreen()
+
+    def update(self):
+        self.cur_screen.update()
+
+
+    def add_screen(self, screen, make_cur_screen = False):
+        if not screen.getTitle() in self.screens.keys:
+            self.screens[screen.getTitle()] = screen
+        else:
+            raise Exception("you are trying to add a screen that already exists")
+        if make_cur_screen:
+            self.change_cur_screen(screen)
 
     def act(self, e):
-        if e.type == pyg.KEYDOWN:
-            if KEYDICT[e.key] == "up":
-                pass
-            if KEYDICT[e.key] == "down":
-                pass
-            if KEYDICT[e.key] == "left":
-                pass
-            if KEYDICT[e.key] == "right":
-                pass
-        if e.type == pyg.KEYUP:
-            if KEYDICT[e.key] == "up":
-                pass
-            if KEYDICT[e.key] == "down":
-                pass
-            if KEYDICT[e.key] == "left":
-                pass
-            if KEYDICT[e.key] == "right":
-                pass
+        self.cur_screen.act(e)
 
 class Screen:
-    def __init__(self, title, width=1250, height=625,
+    def __init__(self, title, width=1200, height=600,
                  screenColor=(189, 154, 154)):
         # HEIGHT OF A WINDOW
         self.height = height
@@ -47,7 +47,10 @@ class Screen:
         self.CurrentState = False
         # ARRAY CONTAINING ALL THE ELEMENTS ON THE SCREEN
         self.elements = []
- 
+
+    def getTitle(self):
+        return self.title
+
     def getHeight(self):
         return self.height
     
@@ -76,7 +79,9 @@ class Screen:
             elem.update()
             elem.draw(self.screen)
 
-        
+    def act(self, e):
+        for elem in self.elements:
+            elem.act(e)
 
     def endCurrentScreen(self):
         self.CurrentState = False
