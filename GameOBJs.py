@@ -143,8 +143,31 @@ class Player(Character):
     def update(self):
         super().update()
 
+    def add_item(self, item, slot):
+        super().add_item(item, slot)
+
     def draw(self, screen):
         super().draw(screen)
+
+    def act(self, e):
+        if e.type == pyg.KEYDOWN:
+            if e.key == pyg.K_UP:
+                self.velocity += np.array([0, -0.1])
+            if e.key == pyg.K_DOWN:
+                self.velocity += np.array([0, 0.1])
+            if e.key == pyg.K_LEFT:
+                self.velocity += np.array([-0.1, 0])
+            if e.key == pyg.K_RIGHT:
+                self.velocity += np.array([0.1, 0])
+        if e.type == pyg.KEYUP:
+            if e.key == pyg.K_UP:
+                self.velocity[1] = 0.0
+            if e.key == pyg.K_DOWN:
+                self.velocity[1] = 0.0
+            if e.key == pyg.K_LEFT:
+                self.velocity[0] = 0.0
+            if e.key == pyg.K_RIGHT:
+                self.velocity[0] = 0.0
 
     
 
