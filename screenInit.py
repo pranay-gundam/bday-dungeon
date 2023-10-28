@@ -21,7 +21,7 @@ def screen_initialize():
                 deltay=0.0)
     Hall1.addElement(P1)
 
-
+                
     Hall2 = gui.Screen(title="Hall2")
     CheckPoint = gui.Screen(title="Check Point")
     Boss1 = gui.Screen(title="Boss One")
