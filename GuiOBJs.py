@@ -10,7 +10,7 @@ class ScreenWrapper:
     def change_cur_screen(self, new_screen):
         if self.cur_screen != None:
             self.cur_screen.endCurrentScreen()
-            self.screens[self.cur_screen.getTitle()] = self.cur_screen
+            #self.screens[self.cur_screen.getTitle()] = self.cur_screen
             self.cur_screen = new_screen
             self.cur_screen.makeCurrentScreen()
         else:
@@ -61,11 +61,11 @@ class Screen:
         self.elements.append(elem)
 
     def makeCurrentScreen(self):
-        # SET THE TITLE FOR THE CURRENT STATE OF A SCREEN
+        
         pyg.display.set_caption(self.title)
-        # SET THE STATE TO ACTIVE
+        
         self.CurrentState = True
-        # ACTIVE SCREEN SIZE
+        
         self.screen = pyg.display.set_mode((self.width,
                                            self.height))
         self.screen.fill(self.screenColor)

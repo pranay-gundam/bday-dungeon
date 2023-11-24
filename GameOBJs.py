@@ -1,6 +1,10 @@
 import pygame as pyg
 import numpy as np
 
+TIME_DELAY = 500 # 0.5 seconds
+TIMER_EVENT = pyg.USEREVENT + 1
+pyg.time.set_timer(TIMER_EVENT, TIME_DELAY )
+
 class Item:
     def __init__(self, name, slot, hp, ap, weapon_type = None, ispace = None):
         self.name = name
@@ -80,7 +84,7 @@ class Inventory:
 
 
 class Character:
-    def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, deltax=0, deltay=0):
+    def __init__(self, name, hitbox, hp, inven_space, x, y, width, height, animedict, deltax=0, deltay=0):
         self.name = name
 
         # hit points
@@ -98,6 +102,8 @@ class Character:
 
         # Helps with controlling movement of the character
         self.velocity = np.array([deltax, deltay])
+
+        self.anime_dict = animedict
 
     def add_item(self, item, slot):
         if self.inven_check(slot) and item.slot_check(slot):
@@ -184,18 +190,61 @@ class Boss_Enemy(Enemy):
     def __init__(self, name):
         hp = 100
         hitbox = {"l":50,"w": 50}
-        super().__init__(name, hp, hitbox)
+        super().__init__(name=name, hitbox=hitbox, hp=hp)
 
 
 class Melee_Enemy(Enemy):
-    def __init__(self, name):
+    def __init__(self, name, animedict):
         hp = 20
         hitbox = {"l": 20,"w": 10}
-        super().__init__(name, hp)
+        super().__init__(name=name, hitbox=hitbox, hp=hp, animedict=animedict)
 
+        self.drawtimer = 0
+
+    def update(self):
+        super().update()
+
+    def act(self, e):
+        if e.type == TIMER_EVENT:
+            self.drawtimer += 1
+
+        if (self.drawtimer // 10) % 4 == 0:
+            pass
+        elif (self.drawtimer // 10) % 4 == 1:
+            pass
+        elif (self.drawtimer // 10) % 4 == 2:
+            pass
+        elif (self.drawtimer // 10) % 4 == 3:
+            pass
+
+    def draw(self, screen):
+        if np.all(self.velocity):
+            pass
+        else:
+            pass
+        
+
+    
 
 class Ranged_Enemy(Enemy):
     def __init__(self, name):
         hp = 10
         hitbox = {"l": 20,"w": 10}
         super().__init__(name, hp)
+
+
+class SkeletonV1(Melee_Enemy):
+    def __init__(self, name):
+
+        idle_anime = [pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_1.png"),
+                      pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_2.png"),
+                      pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_3.png"),
+                      pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_4.png")]
+        moving_anime = []
+        attack_anime = []
+
+        animedict = {"idle": idle_anime,
+                     "moving": moving_anime,
+                     "attack": attack_anime}
+
+        super().__init__(name, animedict)
