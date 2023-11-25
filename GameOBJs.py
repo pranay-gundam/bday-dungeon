@@ -205,23 +205,22 @@ class Melee_Enemy(Enemy):
         super().update()
 
     def act(self, e):
+        
         if e.type == TIMER_EVENT:
             self.drawtimer += 1
 
-        if (self.drawtimer // 10) % 4 == 0:
-            pass
-        elif (self.drawtimer // 10) % 4 == 1:
-            pass
-        elif (self.drawtimer // 10) % 4 == 2:
-            pass
-        elif (self.drawtimer // 10) % 4 == 3:
-            pass
+        
 
     def draw(self, screen):
-        if np.all(self.velocity):
-            pass
+        draw_index_move = (self.drawtimer // 10) % len(self.anime_dict["moving"])
+        draw_index_idle = (self.drawtimer // 10) % len(self.anime_dict["idle"])
+        draw_index_attack = (self.drawtimer // 10) % len(self.anime_dict["attack"])
+        
+        
+        if np.any(self.velocity):
+            screen.blit(self.anime_dict["moving"][draw_index_move])
         else:
-            pass
+            screen.blit(self.anime_dict["moving"][draw_index_idle])
         
 
     
