@@ -205,7 +205,7 @@ class Melee_Enemy(Enemy):
         super().update()
 
     def act(self, e):
-        
+        action_index = (self.drawtimer // 10) % 4
         if e.type == TIMER_EVENT:
             self.drawtimer += 1
 
@@ -216,11 +216,12 @@ class Melee_Enemy(Enemy):
         draw_index_idle = (self.drawtimer // 10) % len(self.anime_dict["idle"])
         draw_index_attack = (self.drawtimer // 10) % len(self.anime_dict["attack"])
         
-        
+        # If there is any motion at all
         if np.any(self.velocity):
             screen.blit(self.anime_dict["moving"][draw_index_move])
+        # If the character is not moving at all
         else:
-            screen.blit(self.anime_dict["moving"][draw_index_idle])
+            screen.blit(self.anime_dict["idle"][draw_index_idle])
         
 
     
@@ -239,7 +240,10 @@ class SkeletonV1(Melee_Enemy):
                       pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_2.png"),
                       pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_3.png"),
                       pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_4.png")]
-        moving_anime = []
+        moving_anime = [pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_1.png"),
+                        pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_2.png"),
+                        pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_3.png"),
+                        pyg.image.load("Sprite-Bank/skeletonV1/skeleton_v1_4.png")]
         attack_anime = []
 
         animedict = {"idle": idle_anime,
